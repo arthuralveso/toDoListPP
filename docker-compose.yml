@@ -1,0 +1,25 @@
+version: '3.6'  
+services:
+  todo_list_frontend:
+    image: arthuralveso/todolist-frontend
+    depends_on:
+      - todo_list_backend
+    environment:
+      - REACT_APP_BASE_URL=http://todo_list_backend:3333
+    ports:
+      - "3000:80"
+  todo_list_backend:
+    image: arthuralveso/todolist-backend
+    depends_on:
+      - banco_de_dados
+    environment:
+      - MONGO_DATABASE_URL=mongodb://banco_de_dados/todolist
+      - SECRET=0c1b507d7847670f72dd773813c42745
+    ports:
+      - "3333:3333"
+  banco_de_dados:
+    image: mongo
+    volumes:
+      - mongo_data:/data/db
+volumes:  
+  mongo_data:
